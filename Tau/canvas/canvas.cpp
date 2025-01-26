@@ -11,9 +11,9 @@ Canvas::Canvas(int _window_width, int _window_height)
     update_pixelsize();
 }
 
-Canvas::Canvas(int _width, int _height, int _window_width, int _window_height) 
+Canvas::Canvas(int _canvas_width, int _canvas_height, int _window_width, int _window_height) 
 {
-    set_canvas_size(_width, _height);
+    set_canvas_size(_canvas_width, _canvas_height);
 
     window_width  = _window_width;
     window_height = _window_height;
@@ -25,7 +25,7 @@ Canvas::~Canvas()
 {
     if (pixels) 
     {
-        for (int i = 0; i < height; ++i) 
+        for (int i = 0; i < canvas_height; ++i) 
         {
             delete[] pixels[i]; 
         }
@@ -33,31 +33,31 @@ Canvas::~Canvas()
     }
 }
 
-void Canvas::set_canvas_size(int _width, int _height) 
+void Canvas::set_canvas_size(int _canvas_width, int _canvas_height) 
 {
     if (pixels) 
     {
-        for (int i = 0; i < height; ++i) 
+        for (int i = 0; i < canvas_height; ++i) 
         {
             delete[] pixels[i]; 
         }
         delete[] pixels; 
     }
 
-    width = _width;
-    height = _height;
+    canvas_width = _canvas_width;
+    canvas_height = _canvas_height;
 
-    pixels = new sf::Color*[height]; 
+    pixels = new sf::Color*[canvas_height]; 
     
-    for (int i = 0; i < height; ++i) 
+    for (int i = 0; i < canvas_height; ++i) 
     {
-        pixels[i] = new sf::Color[width]; 
+        pixels[i] = new sf::Color[canvas_width]; 
     }
 }
 
 void Canvas::draw_pixel(int x, int y, sf::Color color) 
 {
-    if (x >= 0 && x < width && y >= 0 && y < height) 
+    if (x >= 0 && x < canvas_width && y >= 0 && y < canvas_height) 
     {
         pixels[y][x] = color; 
     }
@@ -65,9 +65,9 @@ void Canvas::draw_pixel(int x, int y, sf::Color color)
 
 void Canvas::update_pixelsize()
 {
-	if (width != 0)
+	if (canvas_width != 0)
 	{
-		pixel_size = window_width / width ;
+		pixel_size = window_width / canvas_width ;
 	}
 
 	else
