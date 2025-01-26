@@ -8,15 +8,15 @@ class Canvas
 public:
     Canvas();
     Canvas(int _window_width, int _window_height);
-    Canvas(int _width, int _height, int _window_width, int _window_height);
+    Canvas(int _window_width, int _window_height, int _canvas_width, int _canvas_height);
     
     ~Canvas();
 
+    void draw_pixel (int x, int y, sf::Color color);
+    void erase_pixel(int x, int y);
 
-    void update();
-    void draw_pixel(int x, int y, sf::Color color);
-
-    void set_canvas_size(int _width, int _height);
+    void set_canvas_size(int _canvas_width, int _canvas_height);
+    void set_empty_color(sf::Color _color) { empty_color = _color; };
 
     sf::Color** get_pixels()  { return pixels; };
   
@@ -29,10 +29,12 @@ private:
 	int window_width;	     //  Ширина окна
 	int window_height;       //  Высота окна
 
-	int pixel_size = 10;     //  Размер пикселя
+	int pixel_size    = 10;  //  Размер пикселя
 
-    int canvas_width = 32;   //  Ширина холста в пикселях
+    int canvas_width  = 32;  //  Ширина холста в пикселях
     int canvas_height = 32;  //  Высота холста в пикселях
+
+    sf::Color empty_color = sf::Color(0, 0, 0, 0);
 
     sf::Color** pixels = nullptr; 
 

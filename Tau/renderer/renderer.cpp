@@ -16,25 +16,33 @@ Renderer::Renderer(sf::RenderTarget* _render_window, Canvas* _canvas)
 
 void Renderer::set_render_target(sf::RenderTarget* _render_window)
 {
-	render_window = _render_window;
+	if (_render_window != nullptr)
+	{
+		render_window = _render_window;
+	}
 }
 
 void Renderer::set_current_canvas(Canvas* _canvas)
 {
-	current_canvas =_canvas;
+	if (_canvas != nullptr)
+	{
+		current_canvas =_canvas;
+
+		update();
+	}
 }
 
 void Renderer::update()
 {
-	pixel_size    = current_canvas->get_pixel_size();
+	pixel_size    = current_canvas -> get_pixel_size();
 
-	canvas_width  = current_canvas->get_canvas_width();
-    canvas_height = current_canvas->get_canvas_height();
+	canvas_width  = current_canvas -> get_canvas_width();
+    canvas_height = current_canvas -> get_canvas_height();
 }
 
 void Renderer::render()
 {
-	sf::Color** pixels = current_canvas->get_pixels();
+	sf::Color** pixels = current_canvas -> get_pixels();
 
 	for (int y = 0; y < canvas_height; ++y) 
 	{

@@ -11,7 +11,7 @@ Canvas::Canvas(int _window_width, int _window_height)
     update_pixelsize();
 }
 
-Canvas::Canvas(int _canvas_width, int _canvas_height, int _window_width, int _window_height) 
+Canvas::Canvas(int _window_width, int _window_height, int _canvas_width, int _canvas_height) 
 {
     set_canvas_size(_canvas_width, _canvas_height);
 
@@ -59,7 +59,15 @@ void Canvas::draw_pixel(int x, int y, sf::Color color)
 {
     if (x >= 0 && x < canvas_width && y >= 0 && y < canvas_height) 
     {
-        pixels[y][x] = color; 
+        pixels[x][y] = color; 
+    }
+}
+
+void Canvas::erase_pixel(int x, int y)
+{
+    if (x >= 0 && x < canvas_width && y >= 0 && y < canvas_height) 
+    {
+        pixels[x][y] = empty_color; 
     }
 }
 

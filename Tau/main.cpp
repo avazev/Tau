@@ -2,6 +2,7 @@
 
 #include "renderer/renderer.h"
 #include "canvas/canvas.h"
+#include "brush/brush.h"
 
 #include <iostream>
 
@@ -12,15 +13,18 @@ int main()
 {
     sf::RenderWindow window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Tau");
 
-    Canvas canvas(32, 32, WINDOW_WIDTH, WINDOW_HEIGHT);
-    std::cout << "new canvas created" << std::endl;
+    Canvas canvas_r(WINDOW_WIDTH, WINDOW_HEIGHT, 32, 32);
+    std::cout << "canvas_r created" << std::endl;
 
-    canvas.draw_pixel(22, 12, sf::Color::Red);
-
-    Renderer renderer(&window, &canvas);
+    Renderer renderer(&window, &canvas_r);
     std::cout << "renderer initialized" << std::endl;
 
     renderer.update();
+
+    Brush brush(WINDOW_WIDTH, WINDOW_HEIGHT, &canvas_r);
+    std::cout << "brush initialized" << std::endl;
+
+    brush.set_color(sf::Color::White);
 
     while (window.isOpen())
     {
@@ -28,7 +32,33 @@ int main()
         while (window.pollEvent(event))
         {
             if (event.type == sf::Event::Closed)
+            {
                 window.close();
+            }
+            else if (event.type == sf::Event::KeyPressed)
+            {
+                if (event.key.code == sf::Keyboard::C)
+                {
+                    int r, g, b, a;
+
+                    std::cin >> r;
+                    std::cin >> g;
+                    std::cin >> b;
+                    std::cin >> a;
+
+                    brush.set_color(sf::Color(r, g, b, a));
+                }
+            }
+
+
+            if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+            {
+                brush.draw_pixel(sf::Mouse::getPosition(window));
+            }
+            else if (sf::Mouse::isButtonPressed(sf::Mouse::Right))
+            {
+                brush.erase_pixel(sf::Mouse::getPosition(window));
+            }
         }
 
         window.clear();
