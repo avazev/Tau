@@ -44,6 +44,8 @@ void Renderer::render()
 {
 	sf::Color** pixels = current_canvas -> get_pixels();
 
+	render_window -> clear();
+
 	for (int y = 0; y < canvas_height; ++y) 
 	{
         for (int x = 0; x < canvas_width; ++x) 
@@ -53,7 +55,12 @@ void Renderer::render()
             pixel.setPosition(sf::Vector2f(pixel_size * x, pixel_size * y));
             pixel.setFillColor(pixels[x][y]);
 
-            render_window->draw(pixel);
+            render_window -> draw(pixel);
         }
+    }
+
+	for (auto ui_element : ui_elements) 
+    {
+     	render_window -> draw(*ui_element); 
     }
 }

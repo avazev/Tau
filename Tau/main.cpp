@@ -3,6 +3,7 @@
 #include "renderer/renderer.h"
 #include "canvas/canvas.h"
 #include "brush/brush.h"
+#include "ui/slider/slider.h"
 
 #include <iostream>
 
@@ -25,6 +26,10 @@ int main()
     std::cout << "brush initialized" << std::endl;
 
     brush.set_color(sf::Color::White);
+
+    Slider slider_r(sf::Vector2f(255.0f, 20.0f), sf::Vector2f(30.0f, 30.0f), sf::Color(0, 0, 0, 255), sf::Color(255, 0, 0 , 255));
+
+    renderer.add_ui_element(slider_r.get_slider_shape());
 
     while (window.isOpen())
     {
@@ -54,14 +59,13 @@ int main()
             if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
             {
                 brush.draw_pixel(sf::Mouse::getPosition(window));
+                std::cout << slider_r.get_value(sf::Mouse::getPosition(window)) << std::endl;
             }
             else if (sf::Mouse::isButtonPressed(sf::Mouse::Right))
             {
                 brush.erase_pixel(sf::Mouse::getPosition(window));
             }
         }
-
-        window.clear();
 
         renderer.render();
 
