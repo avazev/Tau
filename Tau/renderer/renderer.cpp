@@ -43,6 +43,7 @@ void Renderer::update()
 void Renderer::render()
 {
 	sf::Color** pixels = current_canvas -> get_pixels();
+	sf::Vector2f pixels_offset = current_canvas -> get_offset();
 
 	render_window -> clear();
 
@@ -52,7 +53,7 @@ void Renderer::render()
         {
             sf::RectangleShape pixel(sf::Vector2f(pixel_size, pixel_size));
 
-            pixel.setPosition(sf::Vector2f(pixel_size * x, pixel_size * y));
+            pixel.setPosition(sf::Vector2f(pixel_size * x + pixels_offset.x, pixel_size * y + pixels_offset.y));
             pixel.setFillColor(pixels[x][y]);
 
             render_window -> draw(pixel);

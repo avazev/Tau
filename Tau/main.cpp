@@ -13,9 +13,11 @@
 int main()
 {
     sf::RenderWindow window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Tau");
+    window.setFramerateLimit(24);
 
-    Canvas canvas_r(WINDOW_WIDTH, WINDOW_HEIGHT, 32, 32);
+    Canvas canvas_r(WINDOW_HEIGHT, WINDOW_HEIGHT, 32, 32);
     std::cout << "canvas_r created" << std::endl;
+    canvas_r.set_offset((WINDOW_WIDTH - WINDOW_HEIGHT) / 2)
 
     Renderer renderer(&window, &canvas_r);
     std::cout << "renderer initialized" << std::endl;

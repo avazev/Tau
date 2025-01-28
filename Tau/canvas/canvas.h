@@ -2,6 +2,7 @@
 #define CANVAS_H
 
 #include <SFML/Graphics/Color.hpp>
+#include <SFML/System/Vector2.hpp>
 
 class Canvas
 {
@@ -18,12 +19,16 @@ public:
     void set_canvas_size(int _canvas_width, int _canvas_height);
     void set_empty_color(sf::Color _color) { empty_color = _color; };
 
+    void set_offset(sf::Vector2f _offset) { offset = _offset; };
+
     sf::Color** get_pixels()  { return pixels; };
   
     int get_pixel_size()      { return pixel_size; };
-  
+    
     int get_canvas_width()    { return canvas_width; };
     int get_canvas_height()   { return canvas_height; };
+
+    sf::Vector2f get_offset() { return offset; };
 
 private:
 	int window_width;	     //  Ширина окна
@@ -33,6 +38,8 @@ private:
 
     int canvas_width  = 32;  //  Ширина холста в пикселях
     int canvas_height = 32;  //  Высота холста в пикселях
+
+    sf::Vector2f offset{0.0f, 0.0f};
 
     sf::Color empty_color = sf::Color(0, 0, 0, 0);
 
