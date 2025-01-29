@@ -4,20 +4,24 @@
 #include "canvas/canvas.h"
 #include "brush/brush.h"
 #include "ui/slider/slider.h"
+#include "ui/palette/palette.h"
 
 #include <iostream>
 
-#define WINDOW_WIDTH	1600
-#define WINDOW_HEIGHT	1200
+#define WINDOW_WIDTH	3440
+#define WINDOW_HEIGHT	1440
 
 int main()
 {
-    sf::RenderWindow window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Tau");
-    window.setFramerateLimit(24);
+    sf::RenderWindow window(sf::VideoMode(sf::Vector2u(WINDOW_WIDTH, WINDOW_HEIGHT)), "Tau");
+    window.setFramerateLimit(60);
 
-    Canvas canvas_r(WINDOW_HEIGHT, WINDOW_HEIGHT, 32, 32);
+    uint canvas_size = 64;
+
+    Canvas canvas_r(WINDOW_HEIGHT, WINDOW_HEIGHT, canvas_size, canvas_size);
     std::cout << "canvas_r created" << std::endl;
-    canvas_r.set_offset((WINDOW_WIDTH - WINDOW_HEIGHT) / 2)
+
+    canvas_r.set_offset(sf::Vector2f((WINDOW_WIDTH - WINDOW_HEIGHT) / 2, 0));
 
     Renderer renderer(&window, &canvas_r);
     std::cout << "renderer initialized" << std::endl;
@@ -27,43 +31,34 @@ int main()
     Brush brush(WINDOW_WIDTH, WINDOW_HEIGHT, &canvas_r);
     std::cout << "brush initialized" << std::endl;
 
-    brush.set_color(sf::Color::White);
-
-    Slider slider_r(sf::Vector2f(255.0f, 20.0f), sf::Vector2f(30.0f, 30.0f), sf::Color(0, 0, 0, 255), sf::Color(255, 0, 0 , 255));
-
-    renderer.add_ui_element(slider_r.get_slider_shape());
+    Palette palette(sf::Vector2f(30.0f, 30.0f));
+    palette.add_to_renderer(&renderer);
 
     while (window.isOpen())
     {
-        sf::Event event;
-        while (window.pollEvent(event))
+        while (const std::optional event = window.pollEvent())
         {
-            if (event.type == sf::Event::Closed)
+            if (event->is<sf::Event::Closed>())
             {
                 window.close();
             }
-            else if (event.type == sf::Event::KeyPressed)
+            else if (event->is<sf::Event::KeyPressed>())
             {
-                if (event.key.code == sf::Keyboard::C)
+                if (event->getIf<sf::Event::KeyPressed>()->code == sf::Keyboard::Key::C)
                 {
-                    int r, g, b, a;
-
-                    std::cin >> r;
-                    std::cin >> g;
-                    std::cin >> b;
-                    std::cin >> a;
-
-                    brush.set_color(sf::Color(r, g, b, a));
+                    int r;
                 }
             }
 
 
-            if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+            if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left))
             {
+                brush.set_color(palette.get_color(sf::Mouse::getPosition(window)));
                 brush.draw_pixel(sf::Mouse::getPosition(window));
-                std::cout << slider_r.get_value(sf::Mouse::getPosition(window)) << std::endl;
+                
+                //std::cout <<  << std::endl;
             }
-            else if (sf::Mouse::isButtonPressed(sf::Mouse::Right))
+            else if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Right))
             {
                 brush.erase_pixel(sf::Mouse::getPosition(window));
             }

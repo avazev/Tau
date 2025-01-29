@@ -41,7 +41,7 @@ private:
 
     sf::Vector2f offset{0.0f, 0.0f};
 
-    sf::Color empty_color = sf::Color(0, 0, 0, 0);
+    sf::Color empty_color = sf::Color::White;
 
     sf::Color** pixels = nullptr; 
 

@@ -53,6 +53,14 @@ void Canvas::set_canvas_size(int _canvas_width, int _canvas_height)
     {
         pixels[i] = new sf::Color[canvas_width]; 
     }
+
+    for (int i = 0; i < canvas_height; ++i) 
+    {
+        for (int j = 0; j < canvas_width; ++j) 
+        {
+            pixels[i][j] = sf::Color::White;
+        }
+    }
 }
 
 void Canvas::draw_pixel(int x, int y, sf::Color color) 

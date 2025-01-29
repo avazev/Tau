@@ -1,8 +1,5 @@
 #include "renderer.h"
 
-#include <SFML/Graphics/RectangleShape.hpp>
-#include <SFML/System/Vector2.hpp>
-
 Renderer::Renderer(sf::RenderTarget* _render_window)
 {
 	set_render_target(_render_window);
@@ -38,14 +35,17 @@ void Renderer::update()
 
 	canvas_width  = current_canvas -> get_canvas_width();
     canvas_height = current_canvas -> get_canvas_height();
+
+    pixels_offset = current_canvas -> get_offset();
 }
 
 void Renderer::render()
 {
 	sf::Color** pixels = current_canvas -> get_pixels();
-	sf::Vector2f pixels_offset = current_canvas -> get_offset();
 
-	render_window -> clear();
+	pixels_offset = current_canvas -> get_offset();
+
+	render_window -> clear(background_color);
 
 	for (int y = 0; y < canvas_height; ++y) 
 	{
@@ -58,6 +58,11 @@ void Renderer::render()
 
             render_window -> draw(pixel);
         }
+    }
+
+    for (auto shape : shapes)
+    {
+    	render_window -> draw(*shape);
     }
 
 	for (auto ui_element : ui_elements) 

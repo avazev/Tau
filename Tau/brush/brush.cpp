@@ -40,11 +40,12 @@ void Brush::erase_pixel(sf::Vector2i mouse_position)
 sf::Vector2i Brush::get_pixel_position(sf::Vector2i mouse_position)
 {
 	int pixel_size = current_canvas -> get_pixel_size();
+	sf::Vector2f offset = current_canvas -> get_offset();
 
 	sf::Vector2i pixel_position;
 
-	pixel_position.x = mouse_position.x / pixel_size;
-	pixel_position.y = mouse_position.y / pixel_size;
+	pixel_position.x = (mouse_position.x - offset.x) / pixel_size;
+	pixel_position.y = (mouse_position.y - offset.y) / pixel_size;
 
 	return pixel_position;
 } 
