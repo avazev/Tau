@@ -23,6 +23,7 @@ public:
 	int get_value(sf::Vector2i mouse_position);
     sf::VertexArray* get_slider_shape() { return &slider_shape; };
 
+    void set_value(int _value) { value = _value; };
 
 private:
 	int value = 255;

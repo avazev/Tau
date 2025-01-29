@@ -28,6 +28,8 @@ public:
     int get_canvas_width()    { return canvas_width; };
     int get_canvas_height()   { return canvas_height; };
 
+    sf::Color get_pixel_color(int x, int y) { return pixels[x][y]; };
+
     sf::Vector2f get_offset() { return offset; };
 
 private:

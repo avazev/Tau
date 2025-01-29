@@ -22,6 +22,8 @@ public:
 	sf::Vector2f get_position() { return example_position; };
 	sf::Color get_color(sf::Vector2i _mouse_position);
 
+	void set_color(sf::Color _color);
+
 private:
 	void palette_init();
 
@@ -32,7 +34,7 @@ private:
 
 	sf::Vector2f example_position;
 	sf::Vector2f example_size{255.0f, 255.0f};
-	
+
 	sf::Vector2f slider_size = example_size;
 
 	float slider_interval = 40.0f;

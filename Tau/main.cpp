@@ -62,6 +62,13 @@ int main()
             {
                 brush.erase_pixel(sf::Mouse::getPosition(window));
             }
+            else if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Middle))
+            {
+                sf::Color new_color = brush.pipette(sf::Mouse::getPosition(window));
+
+                brush.set_color  (new_color);
+                palette.set_color(new_color);
+            }
         }
 
         renderer.render();

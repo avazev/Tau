@@ -15,8 +15,9 @@ public:
 	void set_current_canvas(Canvas* _canvas);
 	void set_color(sf::Color _color);
 
-	void draw_pixel (sf::Vector2i mouse_position);
-	void erase_pixel(sf::Vector2i mouse_position);
+	void draw_pixel   (sf::Vector2i mouse_position);
+	void erase_pixel  (sf::Vector2i mouse_position);
+	sf::Color pipette (sf::Vector2i mouse_position);
 
 private:
 	sf::Vector2i get_pixel_position(sf::Vector2i mouse_position);

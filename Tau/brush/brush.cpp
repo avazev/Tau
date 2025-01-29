@@ -37,6 +37,13 @@ void Brush::erase_pixel(sf::Vector2i mouse_position)
 	current_canvas -> erase_pixel(pixel_position.x, pixel_position.y);
 }
 
+sf::Color Brush::pipette(sf::Vector2i mouse_position)
+{
+	sf::Vector2i pixel_position = get_pixel_position(mouse_position);
+
+	return current_canvas -> get_pixel_color(pixel_position.x, pixel_position.y);
+}
+
 sf::Vector2i Brush::get_pixel_position(sf::Vector2i mouse_position)
 {
 	int pixel_size = current_canvas -> get_pixel_size();

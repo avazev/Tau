@@ -79,3 +79,15 @@ sf::Color Palette::get_color(sf::Vector2i _mouse_position)
 
 	return sf::Color(current_color);
 }
+
+void Palette::set_color(sf::Color _color)
+{
+	current_color = _color;
+
+	color_example.setFillColor(current_color);
+
+	sliders[0].set_value(_color.r);
+    sliders[1].set_value(_color.g);
+	sliders[2].set_value(_color.b);
+    sliders[3].set_value(_color.a);
+}
