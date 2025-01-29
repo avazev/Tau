@@ -28,8 +28,10 @@ Canvas::~Canvas()
         for (int i = 0; i < canvas_height; ++i) 
         {
             delete[] pixels[i]; 
+            delete[] pixel_changed[i];
         }
         delete[] pixels; 
+        delete[] pixel_changed;
     }
 }
 
@@ -40,18 +42,22 @@ void Canvas::set_canvas_size(int _canvas_width, int _canvas_height)
         for (int i = 0; i < canvas_height; ++i) 
         {
             delete[] pixels[i]; 
+            delete[] pixel_changed[i];
         }
         delete[] pixels; 
+        delete[] pixel_changed;
     }
 
     canvas_width = _canvas_width;
     canvas_height = _canvas_height;
 
     pixels = new sf::Color*[canvas_height]; 
+    pixel_changed = new bool*[canvas_width];
     
     for (int i = 0; i < canvas_height; ++i) 
     {
         pixels[i] = new sf::Color[canvas_width]; 
+        pixel_changed[i] = new bool[canvas_height];
     }
 
     for (int i = 0; i < canvas_height; ++i) 
@@ -59,6 +65,7 @@ void Canvas::set_canvas_size(int _canvas_width, int _canvas_height)
         for (int j = 0; j < canvas_width; ++j) 
         {
             pixels[i][j] = sf::Color::White;
+            pixel_changed[i][j] = false;
         }
     }
 }
@@ -68,6 +75,7 @@ void Canvas::draw_pixel(int x, int y, sf::Color color)
     if (x >= 0 && x < canvas_width && y >= 0 && y < canvas_height) 
     {
         pixels[x][y] = color; 
+        pixel_changed[x][y] = true;
     }
 }
 
@@ -76,6 +84,7 @@ void Canvas::erase_pixel(int x, int y)
     if (x >= 0 && x < canvas_width && y >= 0 && y < canvas_height) 
     {
         pixels[x][y] = empty_color; 
+        pixel_changed[x][y] = false;
     }
 }
 

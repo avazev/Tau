@@ -5,8 +5,10 @@
 #include "brush/brush.h"
 #include "ui/slider/slider.h"
 #include "ui/palette/palette.h"
+#include "fileManager/fileManager.h"
 
 #include <iostream>
+#include <string>
 
 #define WINDOW_WIDTH	3440
 #define WINDOW_HEIGHT	1440
@@ -18,21 +20,23 @@ int main()
 
     uint canvas_size = 64;
 
-    Canvas canvas_r(WINDOW_HEIGHT, WINDOW_HEIGHT, canvas_size, canvas_size);
-    std::cout << "canvas_r created" << std::endl;
+    Canvas canvas(WINDOW_HEIGHT, WINDOW_HEIGHT, canvas_size, canvas_size);
+    std::cout << "canvas created" << std::endl;
 
-    canvas_r.set_offset(sf::Vector2f((WINDOW_WIDTH - WINDOW_HEIGHT) / 2, 0));
+    canvas.set_offset(sf::Vector2f((WINDOW_WIDTH - WINDOW_HEIGHT) / 2, 0));
 
-    Renderer renderer(&window, &canvas_r);
+    Renderer renderer(&window, &canvas);
     std::cout << "renderer initialized" << std::endl;
 
     renderer.update();
 
-    Brush brush(WINDOW_WIDTH, WINDOW_HEIGHT, &canvas_r);
+    Brush brush(WINDOW_WIDTH, WINDOW_HEIGHT, &canvas);
     std::cout << "brush initialized" << std::endl;
 
     Palette palette(sf::Vector2f(30.0f, 30.0f));
     palette.add_to_renderer(&renderer);
+
+    FileManager file_manager(&canvas);
 
     while (window.isOpen())
     {
@@ -44,9 +48,9 @@ int main()
             }
             else if (event->is<sf::Event::KeyPressed>())
             {
-                if (event->getIf<sf::Event::KeyPressed>()->code == sf::Keyboard::Key::C)
+                if (event->getIf<sf::Event::KeyPressed>()->code == sf::Keyboard::Key::S)
                 {
-                    int r;
+                    file_manager.save();
                 }
             }
 

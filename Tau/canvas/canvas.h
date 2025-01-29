@@ -21,7 +21,8 @@ public:
 
     void set_offset(sf::Vector2f _offset) { offset = _offset; };
 
-    sf::Color** get_pixels()  { return pixels; };
+    sf::Color** get_pixels()   { return pixels; };
+    bool** get_pixel_changed() { return pixel_changed; };
   
     int get_pixel_size()      { return pixel_size; };
     
@@ -46,6 +47,7 @@ private:
     sf::Color empty_color = sf::Color::White;
 
     sf::Color** pixels = nullptr; 
+    bool** pixel_changed = nullptr; 
 
     void update_pixelsize();
 };
