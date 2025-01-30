@@ -16,6 +16,7 @@ public:
 	FileManager(Canvas* _canvas);
 
 	void save();
+	void open(const std::string _path);
 
 private:
 	Canvas* canvas;

@@ -10,28 +10,25 @@
 #include <iostream>
 #include <string>
 
-#define WINDOW_WIDTH	3440
-#define WINDOW_HEIGHT	1440
+#define WINDOW_WIDTH	1920
+#define WINDOW_HEIGHT	1080
 
 int main()
 {
     sf::RenderWindow window(sf::VideoMode(sf::Vector2u(WINDOW_WIDTH, WINDOW_HEIGHT)), "Tau");
     window.setFramerateLimit(60);
 
-    uint canvas_size = 64;
+    unsigned int canvas_size = 64;
 
     Canvas canvas(WINDOW_HEIGHT, WINDOW_HEIGHT, canvas_size, canvas_size);
-    std::cout << "canvas created" << std::endl;
 
     canvas.set_offset(sf::Vector2f((WINDOW_WIDTH - WINDOW_HEIGHT) / 2, 0));
 
     Renderer renderer(&window, &canvas);
-    std::cout << "renderer initialized" << std::endl;
 
     renderer.update();
 
     Brush brush(WINDOW_WIDTH, WINDOW_HEIGHT, &canvas);
-    std::cout << "brush initialized" << std::endl;
 
     Palette palette(sf::Vector2f(30.0f, 30.0f));
     palette.add_to_renderer(&renderer);
@@ -52,6 +49,15 @@ int main()
                 {
                     file_manager.save();
                 }
+                else if (event->getIf<sf::Event::KeyPressed>()->code == sf::Keyboard::Key::O)
+                {
+                    std::string path;
+                    std::cout << "Enter path >> ";
+                    std::cin  >> path;
+                    std::cout << std::endl;
+
+                    file_manager.open(path);
+                }
             }
 
 
@@ -59,8 +65,6 @@ int main()
             {
                 brush.set_color(palette.get_color(sf::Mouse::getPosition(window)));
                 brush.draw_pixel(sf::Mouse::getPosition(window));
-                
-                //std::cout <<  << std::endl;
             }
             else if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Right))
             {
