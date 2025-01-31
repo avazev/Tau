@@ -23,7 +23,6 @@ configuration:
 install:
   mkdir build && cd build
 
-build_script:
   # Windows
   - cmake .. -G "Visual Studio 16 2019" -A x86 -B x86_Debug -DCMAKE_BUILD_TYPE=Debug
   - cmake .. -G "Visual Studio 16 2019" -A x86 -B x86_Release -DCMAKE_BUILD_TYPE=Release
@@ -34,6 +33,7 @@ build_script:
   - cmake .. -G "Unix Makefiles" -B linux_Debug -DCMAKE_BUILD_TYPE=Debug
   - cmake .. -G "Unix Makefiles" -B linux_Release -DCMAKE_BUILD_TYPE=Release
 
+build_script:
   # Windows
   - cmake --build x86_Debug --config Debug
   - cmake --build x86_Release --config Release
