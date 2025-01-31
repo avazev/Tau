@@ -15,7 +15,7 @@ image:
 
 platform:
   - x86
-  - Any CPU
+  - x64
 
 configuration:
   - Debug
@@ -24,9 +24,10 @@ configuration:
 
 matrix:
   fast_finish: true 
-
-  - platform: x86
-    configuration: Debug
+  
+  allow_failures:
+    - platform: x86
+      configuration: Debug
 
 build:
   parallel: true 
