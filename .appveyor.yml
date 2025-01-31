@@ -3,61 +3,43 @@ version: 0.0.{build}-{branch}
 branches:
   only:
     - main
-    - AppVeyor-Test 
-    
+    - AppVeyor-Test
+
 init:
-  - git config --global core.autocrlf input
-  
+  git config --global core.autocrlf input
+
 image:
-  - Visual Studio 2019   
-  - Ubuntu         
+  Visual Studio 2019
+  Ubuntu
 
 platform:
-  - x86
-  - x64
+  x86
+  x64
 
 configuration:
-  - Debug
-  - Release
+  Debug
+  Release
 
 install:
-  - mkdir build  
+  mkdir build && cd build
+  
+  # Windows
+  cmake .. -G "Visual Studio 16 2019" -A x86 -B x86_Debug -DCMAKE_BUILD_TYPE=Debug
+  cmake .. -G "Visual Studio 16 2019" -A x86 -B x86_Release -DCMAKE_BUILD_TYPE=Release
+  cmake .. -G "Visual Studio 16 2019" -A x64 -B x64_Debug -DCMAKE_BUILD_TYPE=Debug
+  cmake .. -G "Visual Studio 16 2019" -A x64 -B x64_Release -DCMAKE_BUILD_TYPE=Release
+  
+  # Linux 
+  cmake .. -G "Unix Makefiles" -B linux_Debug -DCMAKE_BUILD_TYPE=Debug
+  cmake .. -G "Unix Makefiles" -B linux_Release -DCMAKE_BUILD_TYPE=Release
 
 build_script:
-  - if "%APPVEYOR_BUILD_FOLDER%" == "C:\projects\your-project-name" (
-      mkdir build\windows-x86-Debug
-      mkdir build\windows-x86-Release
-      mkdir build\windows-x64-Debug
-      mkdir build\windows-x64-Release
-      
-      cmake -S . -B build\windows-x86-Debug -G "Visual Studio 16 2019" -A Win32 -DCMAKE_BUILD_TYPE=Debug
-      cmake --build build\windows-x86-Debug --config Debug
-
-      cmake -S . -B build\windows-x86-Release -G "Visual Studio 16 2019" -A Win32 -DCMAKE_BUILD_TYPE=Release
-      cmake --build build\windows-x86-Release --config Release
-
-      cmake -S . -B build\windows-x64-Debug -G "Visual Studio 16 2019" -A x64 -DCMAKE_BUILD_TYPE=Debug
-      cmake --build build\windows-x64-Debug --config Debug
-
-      cmake -S . -B build\windows-x64-Release -G "Visual Studio 16 2019" -A x64 -DCMAKE_BUILD_TYPE=Release
-      cmake --build build\windows-x64-Release --config Release
-    )
+  # Windows
+  cmake --build x86_Debug --config Debug
+  cmake --build x86_Release --config Release
+  cmake --build x64_Debug --config Debug
+  cmake --build x64_Release --config Release
   
-  - if [ "$APPVEYOR_BUILD_FOLDER" != "" ]; then
-      mkdir build/linux-x86-Debug
-      mkdir build/linux-x86-Release
-      mkdir build/linux-x64-Debug
-      mkdir build/linux-x64-Release
-
-      cd build/linux-x86-Debug && cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_FLAGS="-m32" ../.. && make
-      cd ../../..
-      
-      cd build/linux-x86-Release && cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_FLAGS="-m32" ../.. && make
-      cd ../../..
-      
-      cd build/linux-x64-Debug && cmake -DCMAKE_BUILD_TYPE=Debug ../.. && make
-      cd ../../..
-      
-      cd build/linux-x64-Release && cmake -DCMAKE_BUILD_TYPE=Release ../.. && make
-      cd ../../..
-    fi
+  # Linux
+  cmake --build linux_Debug --config Debug
+  cmake --build linux_Release --config Release
