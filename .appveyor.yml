@@ -32,15 +32,14 @@ build_script:
       mkdir -p %BUILD_DIR%/Release;
       cd %BUILD_DIR%;
       cmake .. -DCMAKE_BUILD_TYPE=Debug && make;
-      mv * Debug/; # Передвигаем артефакты в папку Debug
+      mv * Debug/; 
       cd ..;
       mkdir -p Release;
       cd %BUILD_DIR%;
       cmake .. -DCMAKE_BUILD_TYPE=Release && make;
-      mv * Release/; # Передвигаем артефакты в папку Release
+      mv * Release/; 
     }
 
-# Команды для тестирования
 test_script:
   - if "%APPVEYOR_BUILD_IMAGE%" == "Visual Studio 2019" {
       cd windows-x64; ctest --output-on-failure --config Debug;
