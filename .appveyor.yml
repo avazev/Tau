@@ -4,48 +4,23 @@ branches:
   only:
     - main
     - AppVeyor-Test 
-
+    
+init:
+  - git config --global core.autocrlf input
+  
 image:
   - Visual Studio 2019   
   - Ubuntu         
 
+platform:
+  - x86
+  - x64
+
+configuration:
+  - Debug
+  - Release
+
 install:
   - mkdir build  
 
-build_script:
-  - if "%APPVEYOR_BUILD_IMAGE%" == "Visual Studio 2019" {
-      if "%APPVEYOR_PLATFORM%" == "x64" {
-        set BUILD_DIR=windows-x64;
-      } else {
-        set BUILD_DIR=windows-x86;
-      }
-      mkdir %BUILD_DIR%\Debug;
-      mkdir %BUILD_DIR%\Release;
-      cd %BUILD_DIR%;
-      cmake .. -G "Visual Studio 16 2019" -DCMAKE_BUILD_TYPE=Debug && cmake --build . --config Debug;
-      cmake .. -G "Visual Studio 16 2019" -DCMAKE_BUILD_TYPE=Release && cmake --build . --config Release;
-    }
-
-  - if "%APPVEYOR_BUILD_IMAGE%" == "Ubuntu 20.04" {
-      set BUILD_DIR=linux; 
-      mkdir -p %BUILD_DIR%/Debug;
-      mkdir -p %BUILD_DIR%/Release;
-      cd %BUILD_DIR%;
-      cmake .. -DCMAKE_BUILD_TYPE=Debug && make;
-      mv * Debug/; 
-      cd ..;
-      mkdir -p Release;
-      cd %BUILD_DIR%;
-      cmake .. -DCMAKE_BUILD_TYPE=Release && make;
-      mv * Release/; 
-    }
-
-test_script:
-  - if "%APPVEYOR_BUILD_IMAGE%" == "Visual Studio 2019" {
-      cd windows-x64; ctest --output-on-failure --config Debug;
-      cd ..; cd windows-x86; ctest --output-on-failure --config Debug;
-    }
-    
-  - if "%APPVEYOR_BUILD_IMAGE%" == "Ubuntu 20.04" {
-      cd linux; ctest --output-on-failure --build-config Debug;
-    }
+#build_script:
