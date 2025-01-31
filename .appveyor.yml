@@ -4,6 +4,7 @@ version: 0.0.{build}-{branch}
 branches:
   only:
     - main
+    - AppVeyor-Test 
 
 # Maximum number of concurrent jobs for the project
 max_jobs: 1
