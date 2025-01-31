@@ -9,18 +9,21 @@ branches:
 # Maximum number of concurrent jobs for the project
 max_jobs: 1
 
-image: 
-  - Visual Studio 2019
-  - Ubuntu
+image:
+    - Visual Studio 2019
+    - Ubuntu
 
-# build Configuration, i.e. Debug, Release, etc.
-configuration: 
-    - Debug
-    - Release
-
-platform:
-  - x64
-  - x86
+matrix:
+  fast_finish: true 
+  
+  allow_failures:
+    - platform: x86
+      configuration: Release
+  
+    - platform: x64
+      configuration: Debug
+    - platform: x64
+      configuration: Release
 
 environment:
   CMAKE_GENERATOR: "Visual Studio 16 2019"
