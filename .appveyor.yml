@@ -9,16 +9,16 @@ init:
   git config --global core.autocrlf input
 
 image:
-  Visual Studio 2019
-  Ubuntu
+  - Visual Studio 2019
+  - Ubuntu
 
 platform:
-  x86
-  x64
+  - x86
+  - x64
 
 configuration:
-  Debug
-  Release
+  - Debug
+  - Release
 
 install:
   - mkdir build && cd build
