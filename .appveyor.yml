@@ -21,11 +21,8 @@ configuration:
   - Debug
   - Release
 
-
 matrix:
-  fast_finish: true 
-  
-  allow_failures:
+  exclude:
     - platform: x86
       configuration: Debug
 
