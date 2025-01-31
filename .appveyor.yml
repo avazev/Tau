@@ -25,22 +25,22 @@ install:
 
 build_script:
   # Windows
-  cmake .. -G "Visual Studio 16 2019" -A x86 -B x86_Debug -DCMAKE_BUILD_TYPE=Debug
-  cmake .. -G "Visual Studio 16 2019" -A x86 -B x86_Release -DCMAKE_BUILD_TYPE=Release
-  cmake .. -G "Visual Studio 16 2019" -A x64 -B x64_Debug -DCMAKE_BUILD_TYPE=Debug
-  cmake .. -G "Visual Studio 16 2019" -A x64 -B x64_Release -DCMAKE_BUILD_TYPE=Release
+  - cmake .. -G "Visual Studio 16 2019" -A x86 -B x86_Debug -DCMAKE_BUILD_TYPE=Debug
+  - cmake .. -G "Visual Studio 16 2019" -A x86 -B x86_Release -DCMAKE_BUILD_TYPE=Release
+  - cmake .. -G "Visual Studio 16 2019" -A x64 -B x64_Debug -DCMAKE_BUILD_TYPE=Debug
+  - cmake .. -G "Visual Studio 16 2019" -A x64 -B x64_Release -DCMAKE_BUILD_TYPE=Release
   
   # Linux 
-  cmake .. -G "Unix Makefiles" -B linux_Debug -DCMAKE_BUILD_TYPE=Debug
-  cmake .. -G "Unix Makefiles" -B linux_Release -DCMAKE_BUILD_TYPE=Release
+  - cmake .. -G "Unix Makefiles" -B linux_Debug -DCMAKE_BUILD_TYPE=Debug
+  - cmake .. -G "Unix Makefiles" -B linux_Release -DCMAKE_BUILD_TYPE=Release
 
   # Windows
-  cmake --build x86_Debug --config Debug
-  cmake --build x86_Release --config Release
-  cmake --build x64_Debug --config Debug
-  cmake --build x64_Release --config Release
+  - cmake --build x86_Debug --config Debug
+  - cmake --build x86_Release --config Release
+  - cmake --build x64_Debug --config Debug
+  - cmake --build x64_Release --config Release
   
   # Linux
-  cmake --build linux_Debug --config Debug
-  cmake --build linux_Release --config Release
+  - cmake --build linux_Debug --config Debug
+  - cmake --build linux_Release --config Release
 
