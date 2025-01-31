@@ -6,36 +6,27 @@ branches:
     - main
     - AppVeyor-Test 
 
-# Maximum number of concurrent jobs for the project
 max_jobs: 1
+
 
 image:
     - Visual Studio 2019
     - Ubuntu
 
+platform:
+  - x86
+  - Any CPU
+
+configuration:
+  - Debug
+  - Release
+
+
 matrix:
   fast_finish: true 
 
   - platform: x86
-    configuration: Release
-  
-  - platform: x64
     configuration: Debug
-  - platform: x64
-    configuration: Release
 
-environment:
-  CMAKE_GENERATOR: "Visual Studio 16 2019"
-
-build_script:
-  - cmake . -B build/x86/Debug -G "%CMAKE_GENERATOR%" -A Win32 -DCMAKE_BUILD_TYPE=Debug
-  - cmake --build build/x86/Debug --config Debug
-
-  - cmake . -B build/x86/Release -G "%CMAKE_GENERATOR%" -A Win32 -DCMAKE_BUILD_TYPE=Release
-  - cmake --build build/x86/Release --config Release
-
-  - cmake . -B build/x64/Debug -G "%CMAKE_GENERATOR%" -A x64 -DCMAKE_BUILD_TYPE=Debug
-  - cmake --build build/x64/Debug --config Debug
-
-  - cmake . -B build/x64/Release -G "%CMAKE_GENERATOR%" -A x64 -DCMAKE_BUILD_TYPE=Release
-  - cmake --build build/x64/Release --config Release
+build:
+  parallel: true 
