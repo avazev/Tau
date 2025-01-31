@@ -22,5 +22,5 @@ configuration:
 
 build_script:
 
-    - cmake -B %APPVEYOR_BUILD_WORKER_IMAGE% . 
-    - cmake --build %APPVEYOR_BUILD_WORKER_IMAGE%
+    - cmake -B "%APPVEYOR_BUILD_WORKER_IMAGE%" . 
+    - cmake --build "%APPVEYOR_BUILD_WORKER_IMAGE%"
