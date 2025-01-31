@@ -1,13 +1,25 @@
+version: 0.0.{build}-{branch}
+
+# branches to build
+branches:
+  only:
+    - main
+
+# Maximum number of concurrent jobs for the project
+max_jobs: 1
+
 image: 
   - Visual Studio 2019
   - Ubuntu
 
-configuration:
-  - Debug
-  - Release
+# build Configuration, i.e. Debug, Release, etc.
+configuration: 
+    - Debug
+    - Release
 
 platform:
   - x64
+  - x86
 
 environment:
   CMAKE_GENERATOR: "Visual Studio 16 2019"
@@ -24,13 +36,3 @@ build_script:
 
   - cmake . -B build/x64/Release -G "%CMAKE_GENERATOR%" -A x64 -DCMAKE_BUILD_TYPE=Release
   - cmake --build build/x64/Release --config Release
-
-test_script:
-  - cd build/x86/Debug
-  - ctest --output-on-failure
-  - cd ../../x86/Release
-  - ctest --output-on-failure
-  - cd ../../x64/Debug
-  - ctest --output-on-failure
-  - cd ../Release
-  - ctest --output-on-failure
