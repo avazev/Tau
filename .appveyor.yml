@@ -43,3 +43,4 @@ build_script:
   # Linux
   cmake --build linux_Debug --config Debug
   cmake --build linux_Release --config Release
+
