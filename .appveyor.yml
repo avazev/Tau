@@ -3,7 +3,6 @@ version: 0.0.{build}-{branch}
 branches:
   only:
     - main
-    - AppVeyor-Test
 
 init:
   git config --global core.autocrlf input
