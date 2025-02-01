@@ -22,4 +22,4 @@ configuration:
 
 build_script:
     - cmake -B "%APPVEYOR_BUILD_WORKER_IMAGE%" . 
-    - cmake --build "%APPVEYOR_BUILD_WORKER_IMAGE%" -- -j 4
+    - cmake --build "%APPVEYOR_BUILD_WORKER_IMAGE%"
