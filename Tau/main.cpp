@@ -10,8 +10,8 @@
 #include <iostream>
 #include <string>
 
-#define WINDOW_WIDTH	1920
-#define WINDOW_HEIGHT	1080
+#define WINDOW_WIDTH    1920
+#define WINDOW_HEIGHT   1080
 
 int main()
 {
@@ -21,18 +21,14 @@ int main()
     unsigned int canvas_size = 64;
 
     Canvas canvas(WINDOW_HEIGHT, WINDOW_HEIGHT, canvas_size, canvas_size);
-
     canvas.set_offset(sf::Vector2f((WINDOW_WIDTH - WINDOW_HEIGHT) / 2, 0));
 
     Renderer renderer(&window, &canvas);
-
     renderer.update();
 
     Brush brush(WINDOW_WIDTH, WINDOW_HEIGHT, &canvas);
-
     Palette palette(sf::Vector2f(30.0f, 30.0f));
     palette.add_to_renderer(&renderer);
-
     FileManager file_manager(&canvas);
 
     while (window.isOpen())
@@ -45,42 +41,66 @@ int main()
             }
             else if (event->is<sf::Event::KeyPressed>())
             {
-                if (event->getIf<sf::Event::KeyPressed>()->code == sf::Keyboard::Key::S)
+                switch(event->getIf<sf::Event::KeyPressed>()->code)
                 {
-                    file_manager.save();
+                    case sf::Keyboard::Key::S:        
+                        file_manager.save();
+                        break;
+                    case sf::Keyboard::Key::O:
+                    {  
+                        std::string path;
+                        std::cout << "Enter path >> ";
+                        std::cin  >> path;
+                        std::cout << std::endl;
+                        file_manager.open(path);
+                        break;
+                    }
+                    case sf::Keyboard::Key::D:
+                        brush.set_current_brush(1);
+                        break;
+                    case sf::Keyboard::Key::E:
+                        brush.set_current_brush(2);
+                        break;
+                    case sf::Keyboard::Key::P:
+                        brush.set_current_brush(3);
+                        break;
+                    case sf::Keyboard::Key::F:
+                        brush.set_current_brush(4);
+                        break;
                 }
-                else if (event->getIf<sf::Event::KeyPressed>()->code == sf::Keyboard::Key::O)
-                {
-                    std::string path;
-                    std::cout << "Enter path >> ";
-                    std::cin  >> path;
-                    std::cout << std::endl;
-
-                    file_manager.open(path);
-                }
             }
 
+            sf::Vector2i mouse_position = sf::Mouse::getPosition(window);
+            bool is_within_canvas = canvas.contains_pixel(canvas.get_pixel_position(mouse_position).x, canvas.get_pixel_position(mouse_position).y);
 
-            if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left))
+            switch (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left) ? 1 :
+                    sf::Mouse::isButtonPressed(sf::Mouse::Button::Right) ? 2 : 0) 
             {
-                brush.set_color(palette.get_color(sf::Mouse::getPosition(window)));
-                brush.draw_pixel(sf::Mouse::getPosition(window));
-            }
-            else if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Right))
-            {
-                brush.erase_pixel(sf::Mouse::getPosition(window));
-            }
-            else if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Middle))
-            {
-                sf::Color new_color = brush.pipette(sf::Mouse::getPosition(window));
+                case 1: 
+                    
+                    brush.set_color(palette.get_color(mouse_position));
 
-                brush.set_color  (new_color);
-                palette.set_color(new_color);
+                    if (is_within_canvas) {
+                        if (brush.get_current_brush() == 3)
+                        {
+                            brush.use(mouse_position, &palette);
+                        }
+                        else
+                        {
+                            brush.use(mouse_position);
+                        }
+                    }
+                    break;
+
+                case 2: 
+                    if (is_within_canvas) {
+                        brush.use(mouse_position, 2);
+                    }
+                    break;
             }
         }
 
         renderer.render();
-
         window.display();
     }
 }

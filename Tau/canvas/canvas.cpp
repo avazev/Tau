@@ -35,6 +35,26 @@ Canvas::~Canvas()
     }
 }
 
+bool Canvas::contains_pixel(int x, int y)
+{
+    if (x >= 0 && x < canvas_width && 
+        y >= 0 && y < canvas_height)
+        return true;
+    else 
+        return false;
+}
+
+sf::Vector2i Canvas::get_pixel_position(sf::Vector2i _mouse_position)
+{
+    sf::Vector2i pixel_position;
+
+    pixel_position.x = (_mouse_position.x - offset.x) / pixel_size;
+    pixel_position.y = (_mouse_position.y - offset.y) / pixel_size;
+
+    return pixel_position;
+} 
+
+
 void Canvas::set_canvas_size(int _canvas_width, int _canvas_height) 
 {
     if (pixels) 
